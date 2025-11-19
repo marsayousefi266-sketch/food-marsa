@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>رستوران ایتالیایی</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    font-family:Tahoma, sans-serif;
+    background:#1b1f33;
+    color:#fff;
+    margin:0;
+    padding:0;
+}
+header{
+    background:#ff7a59;
+    padding:20px;
+    text-align:center;
+    color:#1b1f33;
+    font-size:26px;
+    font-weight:bold;
+}
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:20px auto;
+}
+.menu-item{
+    display:flex;
+    background:#2a2f46;
+    margin-bottom:15px;
+    padding:10px;
+    border-radius:10px;
+}
+.menu-item img{
+    width:120px;
+    height:90px;
+    border-radius:8px;
+    object-fit:cover;
+}
+.menu-item div{
+    margin-right:15px;
+}
+.menu-item a{
+    color:#ffd873;
+    font-size:20px;
+    text-decoration:none;
+}
+.menu-item small{
+    color:#aaaaaa;
+}
+.panel{
+    background:#232940;
+    padding:15px;
+    border-radius:10px;
+    margin-top:20px;
+}
+button{
+    background:#ff7a59;
+    border:0;
+    color:#1b1f33;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+#modal{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+.modal-box{
+    background:#fff;
+    color:#000;
+    width:90%;
+    max-width:600px;
+    padding:20px;
+    border-radius:10px;
+}
+.modal-box img{
+    width:100%;
+    border-radius:10px;
+}
+.close{
+    background:red;
+    color:#fff;
+    padding:6px 12px;
+    cursor:pointer;
+    border:0;
+    border-radius:5px;
+    float:left;
+}
+</style>
+</head>
+
+<body>
+
+<header>رستوران ایتالیایی</header>
+
+<div class="container">
+
+<!-- دکمه پخش موزیک -->
+<button id="playMusic">🎵 پخش موزیک پیانو</button>
+
+<!-- موزیک پیانو -->
+<audio id="pianoMusic">
+  <source src="@RapiWar - Akharin Shab - Hoomaan - Ashkan Kagan.mp3" type="audio/mp3">
+</audio>
+
+<h2>منوی ویژه</h2>
+
+<!-- ITEM 1 -->
+<div class="menu-item">
+    <img src="../Downloads/6a1d2768b59ef3477f3d7a85f01eaec7.jpg" alt="">
+    <div>
+        <a href="#" onclick="openDish('pizza')">پیتزای ناپولیتانا</a>
+      <small><br>خمیر نازک، گوجه تازه، ریحان</small>
+    </div>
+</div>
+
+<!-- ITEM 2 -->
+<div class="menu-item">
+    <img src="../Downloads/043d5011eb356a47237cb408fc59f346.jpg" alt="">
+    <div>
+        <a href="#" onclick="openDish('pasta')">پاستا آلفردو</a>
+      <small><br>سس کرمی و قارچ تازه</small>
+    </div>
+</div>
+
+<!-- ITEM 3 -->
+<div class="menu-item">
+    <img src="../Downloads/images.jpg" alt="">
+    <div>
+        <a href="#" onclick="openDish('risotto')">ریزوتوی لیمویی</a>
+      <small><br>برنج ایتالیایی و لیموی تازه</small>
+    </div>
+</div>
+
+<div class="panel">
+    <h3>لوکیشن</h3>
+    اینستاگرام
+    <p>@LaBella_Restaurant</p>
+</div>
+</div>
+
+<!-- MODAL -->
+<div id="modal">
+    <div class="modal-box">
+        <button class="close" onclick="closeModal()">X</button>
+        <h2 id="dishTitle"></h2>
+        <img id="dishImg" src="">
+        <p id="dishText"></p>
+        <h3>طرز تهیه:</h3>
+        <p id="dishRecipe"></p>
+    </div>
+</div>
+
+<script>
+// دیتابیس غذاها
+var dishes = {
+    pizza:{
+        title:"پیتزای ناپولیتانا",
+        img:"https://source.unsplash.com/featured/?neapolitan-pizza",
+        text:"پیتزای اصل ناپلی با خمیر نازک و ریحان تازه.",
+        recipe:"خمیر را باز کنید، سس گوجه بزنید، پنیر و ریحان اضافه کنید و ۷ دقیقه در فر بپزید."
+    },
+    pasta:{
+        title:"پاستا آلفردو",
+        img:"https://source.unsplash.com/featured/?alfredo",
+        text:"پاستایی کرمی با قارچ و پنیر پارمسان.",
+        recipe:"پاستا را بجوشانید، قارچ را تفت دهید، خامه و پارمسان اضافه کنید و سرو کنید."
+    },
+    risotto:{
+        title:"ریزوتوی لیمویی",
+        img:"https://source.unsplash.com/featured/?lemon-risotto",
+        text:"ریزوتویی سبک و خوش‌عطر با لیموی تازه.",
+        recipe:"برنج آربوریو را با آب مرغ آرام‌آرام بپزید و در آخر لیمو و پنیر اضافه کنید."
+    }
+};
+
+// نمایش مودال
+function openDish(name){
+    document.getElementById("dishTitle").innerText = dishes[name].title;
+    document.getElementById("dishImg").src = dishes[name].img;
+    document.getElementById("dishText").innerText = dishes[name].text;
+    document.getElementById("dishRecipe").innerText = dishes[name].recipe;
+    document.getElementById("modal").style.display="flex";
+}
+function closeModal(){
+    document.getElementById("modal").style.display="none";
+}
+
+// سیستم پخش موزیک پیانو
+document.getElementById("playMusic").onclick = function(){
+    var music = document.getElementById("pianoMusic");
+
+    if(music.paused){
+        music.play();
+        this.innerText = "⛔ توقف موزیک پیانو";
+    } else {
+        music.pause();
+        this.innerText = "🎵 پخش موزیک پیانو";
+    }
+}
+</script>
+
+</body>
+</html>
